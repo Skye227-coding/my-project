@@ -1,18 +1,29 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div>
+        <app-header></app-header>
+        <p>This is Home page</p>
+    </div>
 </template>
-
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import Header from '../components/Header'
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
-  }
+    data(){
+        return {
+            goods:[]
+        }
+    },
+    components:{
+        appHeader:Header
+    },
+    mounted(){
+        this.axios.get('/data/goods.json')
+          .then(res=>{
+            this.goods = [...res.data];
+          })
+          .catch(()=>{
+              console.log("error");
+          })
+    }
+    
 }
 </script>
