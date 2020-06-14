@@ -1,0 +1,27 @@
+@url=http://localhost:3000/api 
+
+@json=Content-Type: application/json
+###测试连接
+get {{url}}/
+
+###注册
+post {{url}}/register
+{{json}}
+
+{
+    "username":"user0",
+    "password":"123456",
+    "address":"333 Maroubra Rd,2035,NSW,AU",
+    "email":"newuser@icloud.com"
+}
+###登录
+post {{url}}/login
+{{json}}
+
+{
+    "username": "user0",
+    "password": "123456"
+}
+###获取用户资料
+get {{url}}/userprofile
+Authorization: token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZTYxYjg0MmFkZTdiNTIzZmI2YTYwOCIsImlhdCI6MTU5MjE0MjE5N30.g5sPs_mcbl7VHx4VyZJF5lbEDGfphnpkwWSdeCBueYA

@@ -1,7 +1,7 @@
 <template>
     <div class="tab-menu">
         <!-- v-model绑定的是name value -->
-        <el-tabs v-model="category" @tab-click="changeCategory">
+        <el-tabs class="top-nav" v-model="category" @tab-click="changeCategory">
           <el-tab-pane label="全部" name="all"></el-tab-pane>  
           <el-tab-pane label="蔬菜" name="vege"></el-tab-pane>
           <el-tab-pane label="水果" name="fruit"></el-tab-pane>
@@ -27,3 +27,11 @@
     }
   };
 </script>
+<style  scoped>
+.tab-menu{
+  width:100%;
+  height:10%;
+}
+
+  
+</style>

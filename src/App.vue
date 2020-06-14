@@ -1,11 +1,40 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-view></router-view>
+    <div id="main">
+      <router-view v-if="isRouterAlive"></router-view>
     </div>
+    <app-bottom-nav></app-bottom-nav>
   </div>
 </template>
-
+<script>
+import BottomNav from './components/BottomNav.vue'
+export default {
+  name:'App',
+  provide(){
+    return{
+      reload:this.reload
+    }
+  },
+  data(){
+    return{
+      isRouterAlive:true
+    }
+  },
+  components:{
+    'app-bottom-nav':BottomNav
+  },
+  methods:{
+    // 这里的provide和reload用来重载页面：refer:https://blog.csdn.net/qq_16772725/article/details/80467492
+    reload(){
+      // router-view的显示在false和true之间切换实现重载
+      this.isRouterAlive=false
+      this.$nextTick(function(){
+        this.isRouterAlive=true
+      })
+    }
+  }
+}
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
