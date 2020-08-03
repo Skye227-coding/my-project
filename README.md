@@ -21,8 +21,8 @@
 
 ## Notice
 ### git相关
-连接自己的本地项目带github：https://www.jianshu.com/p/6de75cba5c8a
-切换远程仓库地址办法：
+#### 连接自己的本地项目带github：https://www.jianshu.com/p/6de75cba5c8a
+#### 切换远程仓库地址办法：
 ### 在项目目录的命令行下输入以下代码
 ```
 git remote set-url origin xxxxaddressxxx.git
@@ -34,7 +34,7 @@ git push
 ### 项目启动
 前端：
 ```
-npm run serv
+npm run serve
 ```
 后端：
 ```
