@@ -3,7 +3,10 @@
     <div id="main">
       <router-view v-if="isRouterAlive"></router-view>
     </div>
-    <app-bottom-nav></app-bottom-nav>
+    <div id="footer">
+      <app-bottom-nav></app-bottom-nav>
+    </div>
+    
   </div>
 </template>
 <script>
@@ -55,5 +58,14 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+/* 处于顶层的整个main需要在下层，footer在上层 */
+#main{
+  z-index:2;
+}
+#footer{
+  position:fixed;
+  z-index:3;
+
 }
 </style>

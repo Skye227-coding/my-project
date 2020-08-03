@@ -59,7 +59,7 @@ export default {
             .catch(err=>{
               // console.log("error:",err)
               // 报错然后刷新页面
-               console.log('status:',err.response.status)
+               console.log("err.response.status:",err.response.status)
                if(err.response.status){
                  switch(err.response.status){
                    case 432: 

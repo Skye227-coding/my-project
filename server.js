@@ -51,7 +51,9 @@ app.post('/api/login',async(req,res)=>{
 })
 // 定义验证的中间件
 const auth=async(req,res,next)=>{
-    const raw=String(req.headers.Authorization).split('').pop()
+    const raw=String(req.headers.authorization).split(' ').pop()
+    console.log("req.headers in middleware:",req.headers.authorization)
+    console.log("raw:",raw)
     const {id}=jwt.verify(raw,SECRET)
     req.user=await User.findById(id)
     next()

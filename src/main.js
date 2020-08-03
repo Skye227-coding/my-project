@@ -16,23 +16,25 @@ Vue.use(VueAxios, axios)
 // axios.defaults.baseURL = '/api'
 axios.defaults.headers.post['Content-Type']='application/json'
 // request拦截器为每一个request的headers的Authorization属性加上token
-axios.interceptors.request.use(config=>{
-  if(store.state.token){
-    config.headers.Authorization=`token ${store.state.token}`
-  }
-  return config
-},
-err=>{
-  return Promise.reject(err)
-})
-// response拦截器用来拦截错误码
-axios.interceptors.response.use(res=>{
-  return Promise.resolve(res)
+// axios.interceptors.request.use(config=>{
+//   console.log("进入拦截器！！！")
+//   if(store.state.token){
+//     config.headers.Authorization=`token ${store.state.token}`
+    
+//   }
+//   return config
+// },
+// err=>{
+//   return Promise.reject(err)
+// })
+// // response拦截器用来拦截错误码
+// axios.interceptors.response.use(res=>{
+//   return Promise.resolve(res)
   
-},err=>{
+// },err=>{
 
-  return Promise.reject(err)
-})
+//   return Promise.reject(err)
+// })
 
 
 new Vue({

@@ -1,15 +1,18 @@
 <template>
-    <div class="tab-menu">
+    <div class="menu-header">
+        <div class="tab-menu">
         <!-- v-model绑定的是name value -->
-        <el-tabs class="top-nav" v-model="category" @tab-click="changeCategory">
-          <el-tab-pane label="全部" name="all"></el-tab-pane>  
-          <el-tab-pane label="蔬菜" name="vege"></el-tab-pane>
-          <el-tab-pane label="水果" name="fruit"></el-tab-pane>
-          <el-tab-pane label="肉禽蛋" name="meat"></el-tab-pane>
-          <el-tab-pane label="海鲜" name="seafood"></el-tab-pane>
-          <el-tab-pane label="调味品" name="spices"></el-tab-pane>
-        </el-tabs>
+          <el-tabs class="top-nav" v-model="category" @tab-click="changeCategory">
+            <el-tab-pane label="全部" name="all"></el-tab-pane>  
+            <el-tab-pane label="蔬菜" name="vege"></el-tab-pane>
+            <el-tab-pane label="水果" name="fruit"></el-tab-pane>
+            <el-tab-pane label="肉禽蛋" name="meat"></el-tab-pane>
+            <el-tab-pane label="海鲜" name="seafood"></el-tab-pane>
+            <el-tab-pane label="调味品" name="spices"></el-tab-pane>
+          </el-tabs>
+        </div>
     </div>
+    
 </template>
 <script>
   export default {
@@ -28,9 +31,10 @@
   };
 </script>
 <style  scoped>
-.tab-menu{
+.menu-header{
   width:100%;
-  height:10%;
+  height:60px;
+  position: relative;
 }
 
   

@@ -13,7 +13,7 @@
             <div class="right">
                 <div class="cart-icon">
                     <!-- 这个button只在商品从没有一个被加入购物车 到加入购物车的状态的时候使用-->
-                    <cart-counter :count="counter" v-show="counter > 0"></cart-counter>
+                    <cart-counter :count="counter" :id="itemId" v-show="counter > 0"></cart-counter>
                 </div>
             </div>
         </el-card>

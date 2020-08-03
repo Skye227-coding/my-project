@@ -12,7 +12,8 @@ export default new Vuex.Store({
     currentItem:null,
     dialogVisible:false,
     isLogin:false,
-    token:null
+    token:null,
+    address:null
   },
   mutations: {
     // 某物初次加入购物车
@@ -31,8 +32,8 @@ export default new Vuex.Store({
       // 查找->清零->移出数组
       state.cartGoods.some((val,index,goods)=>{
         if(val.id==itemId){
-          val.isInCart=false;
-          val.count=0;
+          // val.isInCart=false;
+          // val.count=0;
           goods.splice(index,1);
           return true;
         }
@@ -64,6 +65,10 @@ export default new Vuex.Store({
     [types.LOGIN]:(state,data)=>{
       localStorage.token=data;
       state.token=data;
+      state.isLogin=true;
+    },
+    setAddress(state,address){
+      state.address=address;
     }
 
     

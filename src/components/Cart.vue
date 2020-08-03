@@ -2,61 +2,71 @@
     <div>
         <el-page-header @back="goBack" content="我的购物车">
         </el-page-header>
-        <div class="item-display">
-            <el-row v-for="goods in cartgoods" :key="goods.id">
-                <cart-item 
-                    :itemId="goods.id"
-                    :itemName="goods.name"
-                    :imgSrc="goods.img"
-                    :itemDesc="goods.content"
-                    :itemPrice="goods.price"
-                    :count="goods.count"></cart-item>
-            </el-row>
-        </div>
-        <div class="price-summary">
-            <div class="total-price">
-                <span class="float-left">商品总价：</span>
-                <span class="float-right">¥ {{amount}}</span>
+        <main>
+            <el-alert title="结算前请登录" type="warning" v-show="!isLogin"></el-alert>
+            <div class="item-display">
+                <el-row v-for="goods in cartgoods" :key="goods.id">
+                    <cart-item 
+                        :itemId="goods.id"
+                        :itemName="goods.name"
+                        :imgSrc="goods.img"
+                        :itemDesc="goods.content"
+                        :itemPrice="goods.price"
+                        :count="goods.count"></cart-item>
+                </el-row>
             </div>
-            <br>
-            <div class="red-packet">
-                <span class="float-left">红包：</span>
-                <el-select  class="float-left" v-model="redPacket" :placeholder="redPacketPlaceholder">
-                    <el-option
-                        v-for="item in redPackets"
-                        :key="item.id"
-                        :label="item.label"
-                        :value="item.money"
-                        :disabled="isItemDisabled(item.limit)">
-                    </el-option>
-                </el-select>
-                <span class="float-right" v-show="redPacket">¥ {{redPacket}}</span>
-            </div>
-            <br>
-            <div class="pay">
-                <div class="minus-coupon">
-                    <span class="float-left">商品实付:</span>
-                    <span class="float-right">¥ {{amount-redPacket}}</span>
+            <div class="price-summary">
+                <div class="total-price">
+                    <span class="float-left">商品总价：</span>
+                    <span class="float-right">¥ {{amount}}</span>
                 </div>
                 <br>
-                <div class="postage">
-                    <span class="float-left">运费（满49元包邮）：</span>
-                    <span class="float-right">
-                        <span v-show="needPostage">¥ {{postage}}</span>
-                        <span v-show="!needPostage">免邮</span>
-                    </span>
+                <div class="red-packet">
+                    <span class="float-left">红包：</span>
+                    <el-select  class="float-left" v-model="redPacket" :placeholder="redPacketPlaceholder">
+                        <el-option
+                            v-for="item in redPackets"
+                            :key="item.id"
+                            :label="item.label"
+                            :value="item.money"
+                            :disabled="isItemDisabled(item.limit)">
+                        </el-option>
+                    </el-select>
+                    <span class="float-right" v-show="redPacket">¥ {{redPacket}}</span>
                 </div>
                 <br>
-                <div class="summary">
-                    <span class="float-left">合计：</span>
-                    <span class="float-right">¥ {{pay}}</span>
+                <div class="pay">
+                    <div class="minus-coupon">
+                        <span class="float-left">商品实付:</span>
+                        <span class="float-right">¥ {{amount-redPacket}}</span>
+                    </div>
+                    <br>
+                    <div class="postage">
+                        <span class="float-left">运费（满49元包邮）：</span>
+                        <span class="float-right">
+                            <span v-show="needPostage">¥ {{postage}}</span>
+                            <span v-show="!needPostage">免邮</span>
+                        </span>
+                    </div>
+                    <br>
+                    <div class="summary">
+                        <span class="float-left">合计：</span>
+                        <span class="float-right">¥ {{pay}}</span>
+                    </div>
                 </div>
             </div>
-        </div>
+        </main>
+        <footer  class="bottom-pay" v-show="cartgoods.length>0">
+            <div>
+             <el-button type="primary" class="pay-button" @click="toPayOrder">去结算 <i class="el-icon-arrow-right"></i></el-button>
+            </div>
+        </footer>
+        
     </div>
 </template>
 <script>
 import CartItem from '../components/CartItem.vue'
+import axios from '../../axios-auth'
 export default {
     data(){
         return{
@@ -68,7 +78,8 @@ export default {
             redPacket:'',
             redPacketPlaceholder:'无可用红包',
             postage:6,
-            needPostage:true
+            needPostage:true,
+            userName:''
         }
     },
     methods:{
@@ -99,6 +110,28 @@ export default {
               return false;
           }
 
+      },
+      toPayOrder(){
+          if(this.$store.state.isLogin){
+              axios.get('/api/userprofile')
+              .then(res=>{
+                  this.userName=res.data.username
+                  this.$store.commit('setAddress',res.data.address)
+                  console.log('name',this.userName)
+                  this.$router.push({
+                  path:`/${this.userName}/Order`,
+                  query:{
+                      pay:this.pay
+                  }
+                  })
+              })
+              .catch(err=>{
+                  console.log("err",err)
+              })
+              
+          }
+        //   在进入order之前设置检查登录状态
+
       }
     },
     components:{
@@ -124,7 +157,10 @@ export default {
             else this.needPostage=false;
             if(this.needPostage) return initialAmount+this.postage;
             else return initialAmount;
-        }
+        },
+        isLogin(){
+           return this.$store.state.isLogin;
+       }
     }
     
 }
@@ -150,7 +186,7 @@ export default {
     height:20px;
 }
 .summary{
-    height:20px;
+    height:60px;
 
 }
 .postage{
@@ -159,9 +195,25 @@ export default {
 .el-select{
     width:auto;
 }
-.el-row{
-    
+.bottom-pay{
+    background-color: white;
+    width:100%;
+    height:40px;
+    bottom:50px;
+    z-index:3;
+   
+    position: fixed;
 }
+.pay-button{
+    height:40px;
+    bottom:50px;
+    position: fixed;
+    right:10px;
+}
+.el-icon-arrow-right{
+    padding-right: 0;
+}
+
 
     
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="bottom">
         <el-row class="bottom-nav">
             <!-- 用v-for来循环渲染底部导航栏，用三元表达式判断当前路径和匹配的组件的路径，切换彩色图标-->
             <router-link 
@@ -86,4 +86,5 @@ export default {
         height:20%;
         width:auto;
     }
+    
 </style>

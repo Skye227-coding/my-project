@@ -1,31 +1,35 @@
 <template>
-    <div>
-        <app-header></app-header>
-        <div class="itemList">
-            <!-- 这里面的动画是通过npm i vue2-animate库实现的 :这里的一层transition-group没法实现每次切换都有特效，所以需要两侧-->
-            <transition name="fade">
-            <transition-group name="list"
+    <el-container class="home">
+        <el-header>
+            <app-header></app-header>
+        </el-header>
+        <el-container class="item-container">
+            <el-main class="itemList">
+                <!-- 这里面的动画是通过npm i vue2-animate库实现的 :这里的一层transition-group没法实现每次切换都有特效，所以需要两侧-->
+                <transition name="fade">
+                <transition-group name="list"
                               tag="ul" 
                               :key="currentKey"
                               mode='out-in'>
-                <!-- 这里使用二维数组来完成三个换行一次 -->
-                <el-row v-for="(row,index) in selectedGoods" :key="index">
-                    <el-col :span="8" v-for="(item) of row" :key="item.id">
-                        <app-commodity
+                    <!-- 这里使用二维数组来完成三个换行一次 -->
+                    <el-row v-for="(row,index) in selectedGoods" :key="index">
+                        <el-col :span="8" v-for="(item) of row" :key="item.id">
+                            <app-commodity
                             :itemId="item.id"
                             :itemName="item.title"
                             :imgSrc="item.img"
                             :itemDesc="item.content"
                             :itemPrice="item.price"
                             :count="0">
-                        </app-commodity>
-                    </el-col>
-                </el-row>
+                            </app-commodity>
+                        </el-col>
+                    </el-row>
                 
-            </transition-group>
-            </transition>
-        </div>
-    </div>
+                </transition-group>
+                </transition>
+            </el-main>
+        </el-container>
+    </el-container>
 </template>
 <script>
 import Header from '../components/Header'
@@ -92,15 +96,36 @@ export default {
     
 }
 </script>
+
 <style scoped>
+/* z-index可以解决上下层问题，大的在上层 */
+    .home{
+       width: 100%;
+       padding-bottom: 55px;
+    }
     .fadeRight{
        animation-duration: 0.25s; 
     }
     .itemList{
-        height:100%;
         width:100%;
-        margin: 0 auto;
-        
-
+        margin: 0 0 auto;
     }
+    .el-header{
+       position: fixed; 
+       width: 100%;
+       height: 65px;
+       z-index:2;  
+       background-color: white;
+       top:0;  
+    }
+    .el-main{
+        position: absolute;
+        width: 100%;
+        padding-top: 60px;
+        left:0;
+        overflow-y: hidden;
+        z-index:1;
+    }
+    
+    
 </style>
